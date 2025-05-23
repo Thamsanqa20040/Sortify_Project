@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Waste Type</h2>
+  <p>Select the type of waste you're reporting</p>
+
+  <div class="waste-buttons">
+    <ion-button
+      *ngFor="let type of wasteTypes"
+      fill="outline"
+      color="medium"
+      [strong]="selectedType === type"
+      (click)="selectType(type)">
+      {{ type }}
+    </ion-button>
+  </div>
+
+  <h2>Description</h2>
+  <p>Provide details about the waste</p>
+  <ion-textarea
+    auto-grow="true"
+    placeholder="E.g., Several plastic bottles and bags near the park entrance"
+    [(ngModel)]="description">
+  </ion-textarea>
+
+  <h2>Photo</h2>
+  <p>Upload or take a photo of the waste</p>
+
+  <div class="photo-buttons">
+    <ion-button expand="block" fill="outline" color="success" (click)="uploadPhoto()">
+      <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+      Upload Photo
+    </ion-button>
+
+    <ion-button expand="block" fill="outline" color="success" (click)="takePhoto()">
+      <ion-icon name="camera-outline" slot="start"></ion-icon>
+      Take Photo
+    </ion-button>
+  </div>
+
+</ion-content>

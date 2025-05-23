@@ -1,0 +1,37 @@
+<ion-content class="login-content">
+
+  <div class="login-container">
+    <!-- Welcome Message -->
+    <div class="text-center">
+      <h2 class="welcome-title">Welcome Back to Sortify</h2>
+      <p class="welcome-subtitle">Log in to continue your eco-friendly journey</p>
+    </div>
+
+    <!-- Email Field -->
+    <div class="input-box">
+      <img src="assets/icon/email.png" class="input-icon" alt="Email Icon" />
+      <input [(ngModel)]="email" type="email" placeholder="Enter your email" class="input-field" />
+    </div>
+
+    <!-- Password Field -->
+    <div class="input-box">
+      <img src="assets/icon/locked.png" class="input-icon" alt="Lock Icon" />
+      <input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password" class="input-field" />
+      <img src="assets/icon/see.png" class="input-icon right-icon" alt="Show Password" (click)="togglePassword()" />
+    </div>
+
+    <!-- Forgot Password -->
+    <div class="forgot-password">
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <!-- Login Button -->
+    <ion-button expand="block" class="login-button" (click)="login()">Login</ion-button>
+
+    <!-- Register Link -->
+    <div class="register-link">
+      <p>Don't have an account? <a routerLink="/register">Register Now</a></p>
+    </div>
+  </div>
+
+</ion-content>
