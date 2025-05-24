@@ -1,0 +1,108 @@
+.title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 10px 0 20px 5px;
+}
+
+.report-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chip-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.report-details {
+  display: flex;
+  align-items: flex-start;
+}
+
+.report-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 2px solid #e0e0e0;
+}
+
+.report-text h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 5px;
+}
+
+.report-text p {
+  margin: 3px 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.location ion-icon {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.points {
+  font-weight: 500;
+  color: #1e7e34;
+}
+
+.bonus {
+  color: orange;
+  margin-left: 5px;
+}
+
+/* Add padding to bottom of content to make space for nav */
+ion-content.report-page-content {
+  --padding-bottom: 90px;
+}
+
+/* Bottom navigation styles */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 0 10px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  border-top: 1px solid #ddd;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 10px;
+  color: #444;
+}
+
+.nav-item img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 2px;
+}
+
+.add-btn {
+  background: #4caf50;
+  border-radius: 50%;
+  padding: 12px;
+  margin-top: -25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-btn img {
+  width: 30px;
+  height: 30px;
+}

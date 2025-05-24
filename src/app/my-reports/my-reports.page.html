@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>My Reports</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="funnel-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding report-page-content">
+
+  <h2 class="title">My Reports</h2>
+
+  <!-- Report 1 -->
+  <div class="report-card">
+    <div class="chip-row">
+      <ion-chip color="success" class="custom-chip">Plastic</ion-chip>
+      <ion-chip color="success" class="custom-chip">Collected</ion-chip>
+    </div>
+    <div class="report-details">
+      <img src="assets/icon/plastic-bottles.png" alt="Plastic" class="report-icon" />
+      <div class="report-text">
+        <h3>Plastic bottles and containers</h3>
+        <p class="location"><ion-icon name="location-outline"></ion-icon>V Section, Umlazi, Durban</p>
+        <p class="date">15 Nov 2023</p>
+        <p class="points">Points: <strong>50</strong> <span class="bonus">+10</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report 2 -->
+  <div class="report-card">
+    <div class="chip-row">
+      <ion-chip color="tertiary" class="custom-chip">Paper</ion-chip>
+      <ion-chip color="warning" class="custom-chip">Assigned</ion-chip>
+    </div>
+    <div class="report-details">
+      <img src="assets/icon/boxes.png" alt="Paper" class="report-icon" />
+      <div class="report-text">
+        <h3>Cardboard boxes and newspapers</h3>
+        <p class="location"><ion-icon name="location-outline"></ion-icon>W Section, Umlazi, Durban</p>
+        <p class="date">01 Dec 2023</p>
+        <p class="points">Points: <strong>30</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report 3 -->
+  <div class="report-card">
+    <div class="chip-row">
+      <ion-chip color="primary" class="custom-chip">Glass</ion-chip>
+      <ion-chip color="medium" class="custom-chip">Pending</ion-chip>
+    </div>
+    <div class="report-details">
+      <img src="assets/icon/glas.png" alt="Glass" class="report-icon" />
+      <div class="report-text">
+        <h3>Glass bottles</h3>
+        <p class="location"><ion-icon name="location-outline"></ion-icon>T Section, Umlazi, Durban</p>
+        <p class="date">10 Dec 2023</p>
+        <p class="points">Points: <strong>40</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item">
+      <img src="assets/icons/home.png" alt="Home">
+      <span>Home</span>
+    </div>
+    <div class="nav-item">
+      <img src="assets/icons/medal.png" alt="Medal">
+      <span>Rewards</span>
+    </div>
+    <div class="nav-item add-btn">
+      <img src="assets/icons/add.png" alt="Add">
+    </div>
+    <div class="nav-item">
+      <img src="assets/icons/report.png" alt="Report">
+      <span>Reports</span>
+    </div>
+    <div class="nav-item">
+      <img src="assets/icons/user.png" alt="User">
+      <span>Profile</span>
+    </div>
+  </div>
+</ion-content>

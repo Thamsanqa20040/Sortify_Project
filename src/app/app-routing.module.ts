@@ -27,7 +27,10 @@ const routes: Routes = [
     path: 'about',
     loadChildren: () => import('./about/about.module').then(m => m.AboutPageModule)
   },
-  // ⬇️ Add this wildcard route to catch invalid paths
+  {
+    path: 'my-reports',
+    loadChildren: () => import('./my-reports/my-reports.module').then(m => m.MyReportsPageModule)
+  },
   {
     path: '**',
     redirectTo: 'login',
