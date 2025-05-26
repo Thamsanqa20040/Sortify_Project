@@ -67,23 +67,26 @@
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <div class="nav-item">
-      <img src="assets/icons/home.png" alt="Home">
-      <span>Home</span>
+      <a [routerLink]="['/home']">
+        <img src="assets/icon/home.png" alt="Home" />
+        <span>Home</span>
+      </a>
     </div>
     <div class="nav-item">
-      <img src="assets/icons/medal.png" alt="Medal">
+      <img src="assets/icon/medal.png" alt="Rewards" />
       <span>Rewards</span>
     </div>
     <div class="nav-item add-btn">
-      <img src="assets/icons/add.png" alt="Add">
+      <img src="assets/icon/add.png" alt="Add" />
     </div>
     <div class="nav-item">
-      <img src="assets/icons/report.png" alt="Report">
+      <img src="assets/icon/report.png" alt="Report" />
       <span>Reports</span>
     </div>
     <div class="nav-item">
-      <img src="assets/icons/user.png" alt="User">
+      <img src="assets/icon/user.png" alt="User" />
       <span>Profile</span>
     </div>
   </div>
+
 </ion-content>

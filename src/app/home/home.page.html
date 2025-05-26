@@ -5,49 +5,64 @@
 </ion-header>
 
 <ion-content class="home-content">
+  <div class="header">
+    <div class="user-info">
+      <div>
+        <h2>Hello, {{ user?.name }}</h2>
+        <div class="location">
+          <img src="assets/home/location-outline.png" class="icon" />
+          <span>{{ user?.address }}</span>
+        </div>
+      </div>
+      <div class="notifications">
+        <img src="assets/home/notifications-outline.png" class="icon" />
+        <span class="badge">3</span>
+      </div>
+    </div>
 
-  <div class="welcome-section">
-    <h2>Hello, Sipho</h2>
-    <p class="address">123 Mangosuthu Highway, Umlazi, Durban</p>
-  </div>
-
-  <ion-card class="points-card">
-    <ion-card-header>
-      <ion-card-title>Your Points</ion-card-title>
-      <h1>350</h1>
-      <p>Redeem for rewards</p>
-    </ion-card-header>
-  </ion-card>
-
-  <div class="report-summary">
-    <ion-card>
+    <ion-card class="points-card">
       <ion-card-content>
+        <div class="points-container">
+          <img src="assets/home/leaf-outline.png" class="points-icon" />
+          <div>
+            <h4>Your Points</h4>
+            <h1>{{ user?.points }}</h1>
+            <p>Redeem for rewards</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="stats">
+      <ion-card class="stat-box">
+        <img src="assets/home/refresh.png" class="icon" />
+        <h4>{{ totalReports }}</h4>
         <p>Total Reports</p>
-        <h2>3</h2>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-badge color="medium">Pending</ion-badge>
+      </ion-card>
+
+      <ion-card class="stat-box pending">
+        <img src="assets/home/timer-outline.png" class="icon" />
+        <h4>{{ pendingReports }}</h4>
         <p>Pending</p>
-        <h2>1</h2>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-badge color="success">Collected</ion-badge>
+      </ion-card>
+
+      <ion-card class="stat-box collected">
+        <img src="assets/home/checkmark-done-outline.png" class="icon" />
+        <h4>{{ collectedReports }}</h4>
         <p>Collected</p>
-        <h2>1</h2>
+      </ion-card>
+    </div>
+
+    <ion-card class="report-banner">
+      <ion-card-content class="banner-flex">
+        <div>
+          <h3>Report Waste</h3>
+          <p>Help keep your community clean and earn points</p>
+        </div>
+        <img src="assets/home/leaf-outline.png" class="icon-right" />
       </ion-card-content>
     </ion-card>
   </div>
-
-  <ion-card class="report-waste-card">
-    <ion-card-content>
-      <h3>Report Waste</h3>
-      <p>Help keep your community clean and earn points</p>
-    </ion-card-content>
-  </ion-card>
 
   <div class="recent-reports">
     <div class="section-header">
@@ -55,13 +70,95 @@
       <a href="#">See All →</a>
     </div>
 
-    <ion-card class="report-item">
+    <ion-card class="report-card">
       <ion-card-content>
-        <ion-badge color="success">Collected</ion-badge>
-        <ion-badge color="tertiary">Plastic</ion-badge>
-        <h5>Plastic bottles and containers</h5>
+        <div class="tags">
+          <span class="tag green">Plastic</span>
+          <span class="tag status-collected">Collected</span>
+        </div>
+        <div class="report-entry">
+          <img src="assets/home/plastic.png" class="report-image" />
+          <div class="report-details">
+            <div class="report-title">Plastic bottles and containers</div>
+            <div class="report-meta">
+              <img src="assets/home/location-outline.png" class="icon" />
+              <span>V Section, Umlazi, Durban</span>
+            </div>
+            <div class="report-date">15 Nov 2023</div>
+            <div class="points">Points: <span class="bold">50</span> <span class="bonus">+10</span></div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="report-card">
+      <ion-card-content>
+        <div class="tags">
+          <span class="tag blue">Paper</span>
+          <span class="tag status-assigned">Assigned</span>
+        </div>
+        <div class="report-entry">
+          <img src="assets/home/paper.png" class="report-image" />
+          <div class="report-details">
+            <div class="report-title">Cardboard boxes and newspapers</div>
+            <div class="report-meta">
+              <img src="assets/home/location-outline.png" class="icon" />
+              <span>W Section, Umlazi, Durban</span>
+            </div>
+            <div class="report-date">01 Dec 2023</div>
+            <div class="points">Points: <span class="bold">30</span></div>
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>
 
+  <div class="quick-access">
+    <ion-card class="access-button">
+      <ion-card-content>
+        <img src="assets/home/location-outline.png" class="icon" />
+        <h5>Recycling Centers</h5>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="access-button">
+      <ion-card-content>
+        <img src="assets/home/information-circle-outline.png" class="icon" />
+        <h5>Support & Feedback</h5>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item">
+      <a [routerLink]="['/home']">
+        <img src="assets/icon/home.png" alt="Home" />
+        <span>Home</span>
+      </a>
+    </div>
+    <div class="nav-item">
+      <a [routerLink]="['/rewards']">
+        <img src="assets/icon/medal.png" alt="Rewards" />
+        <span>Rewards</span>
+      </a>
+    </div>
+    <div class="nav-item add-btn">
+      <a [routerLink]="['/report']">
+        <img src="assets/icon/add.png" alt="Add" />
+      </a>
+    </div>
+    <div class="nav-item">
+      <a [routerLink]="['/reports']">
+        <img src="assets/icon/report.png" alt="Report" />
+        <span>Reports</span>
+      </a>
+    </div>
+    <div class="nav-item">
+      <a [routerLink]="['/profile']">
+        <img src="assets/icon/user.png" alt="User" />
+        <span>Profile</span>
+      </a>
+    </div>
+  </div>
 </ion-content>
