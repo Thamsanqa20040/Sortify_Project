@@ -1,13 +1,62 @@
-.waste-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.report-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 80px; // to prevent overlap with bottom nav
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.subtext {
+  font-size: 0.9em;
+  color: #555;
   margin-bottom: 16px;
 }
 
-.photo-buttons {
+.waste-types {
   display: flex;
-  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 10px;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.photo-buttons ion-button {
+  margin-bottom: 10px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid #ccc;
+  z-index: 999;
+
+  .nav-item {
+    text-align: center;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    &.add-btn img {
+      width: 40px;
+      height: 40px;
+    }
+  }
 }

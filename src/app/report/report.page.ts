@@ -4,20 +4,34 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-report',
   templateUrl: './report.page.html',
   styleUrls: ['./report.page.scss'],
-  standalone: false  // ❌ REMOVE this line
+  standalone: false,
 })
 export class ReportPage implements OnInit {
 
-  wasteTypes: string[] = ['Plastic', 'Paper', 'Glass', 'Metal', 'E-Waste', 'Organic', 'Hazardous', 'Other'];
+  wasteTypes = [
+    { type: 'Plastic', label: 'Plastic' },
+    { type: 'Paper', label: 'Paper' },
+    { type: 'Glass', label: 'Glass' },
+    { type: 'Metal', label: 'Metal' },
+    { type: 'E-Waste', label: 'E-Waste' },
+    { type: 'Organic', label: 'Organic' },
+    { type: 'Hazardous', label: 'Hazardous' },
+    { type: 'Other', label: 'Other' }
+  ];
+
   selectedType: string = '';
   description: string = '';
+  isLoading: boolean = false;
+  location: any = null;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    // You can add geolocation logic here if needed
+    this.location = { lat: 0, lng: 0 }; // Dummy location to avoid disabling the button
   }
 
-  selectType(type: string) {
+  selectWasteType(type: string) {
     this.selectedType = type;
   }
 
@@ -27,5 +41,13 @@ export class ReportPage implements OnInit {
 
   takePhoto() {
     alert('Take photo clicked');
+  }
+
+  submitReport() {
+    this.isLoading = true;
+    setTimeout(() => {
+      alert('Report submitted!');
+      this.isLoading = false;
+    }, 2000);
   }
 }

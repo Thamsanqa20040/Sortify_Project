@@ -101,7 +101,7 @@
     padding: 12px;
     border-radius: 10px;
     background: #fff;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 
     h4 {
       margin: 6px 0 4px;
@@ -370,17 +370,26 @@
     padding: 16px;
     border-radius: 12px;
     background: #ffffff;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
 
     img {
       width: 24px;
       height: 24px;
       margin-bottom: 8px;
+      transition: transform 0.3s ease;
     }
 
     h5 {
       font-size: 14px;
       margin: 0;
+      color: #333;
     }
   }
 }
@@ -399,16 +408,34 @@
   z-index: 100;
 
   .nav-item {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 12px;
-    color: #555;
+    padding: 6px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
 
     img {
       width: 24px;
       height: 24px;
-      margin-bottom: 4px;
+      transition: transform 0.2s ease, filter 0.3s ease;
+      filter: grayscale(100%) brightness(0.8);
+    }
+
+    &:active,
+    &.active {
+      background-color: #e8f5e9;
+
+      img {
+        transform: scale(1.2);
+        filter: grayscale(0%) brightness(1);
+      }
+    }
+
+    &:hover {
+      background-color: #f1f8e9;
+      cursor: pointer;
     }
 
     &.add-btn {
@@ -421,6 +448,8 @@
       img {
         width: 32px;
         height: 32px;
+        margin-bottom: 0;
+        filter: none;
       }
     }
   }

@@ -4,43 +4,83 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="report-content">
 
-  <h2>Waste Type</h2>
-  <p>Select the type of waste you're reporting</p>
+  <div class="container">
+    <h2>Report Waste</h2>
+    <p class="subtext">Help keep your community clean and earn points by reporting waste</p>
 
-  <div class="waste-buttons">
+    <h3>Waste Type</h3>
+    <p class="subtext">Select the type of waste you're reporting</p>
+
+    <div class="waste-types">
+      <ion-button
+        *ngFor="let type of wasteTypes"
+        [color]="selectedType === type.type ? 'primary' : 'light'"
+        (click)="selectWasteType(type.type)"
+        shape="round"
+        size="small"
+      >
+        {{ type.label }}
+      </ion-button>
+    </div>
+
+    <h3>Description</h3>
+    <p class="subtext">Provide details about the waste</p>
+
+    <ion-textarea
+      placeholder="E.g., Several plastic bottles and bags near the park entrance"
+      [(ngModel)]="description"
+      rows="4"
+      fill="solid"
+    ></ion-textarea>
+
+    <h3>Photo</h3>
+    <p class="subtext">Upload or take a photo of the waste</p>
+
+    <div class="photo-buttons">
+      <ion-button expand="block" fill="outline" (click)="uploadPhoto()">Upload Photo</ion-button>
+      <ion-button expand="block" fill="outline" (click)="takePhoto()">Take Photo</ion-button>
+    </div>
+
     <ion-button
-      *ngFor="let type of wasteTypes"
-      fill="outline"
-      color="medium"
-      [strong]="selectedType === type"
-      (click)="selectType(type)">
-      {{ type }}
+      expand="block"
+      color="success"
+      [disabled]="!selectedType || !location || isLoading"
+      (click)="submitReport()"
+    >
+      <ion-spinner *ngIf="isLoading" name="dots" slot="start"></ion-spinner>
+      Submit Report
     </ion-button>
   </div>
 
-  <h2>Description</h2>
-  <p>Provide details about the waste</p>
-  <ion-textarea
-    auto-grow="true"
-    placeholder="E.g., Several plastic bottles and bags near the park entrance"
-    [(ngModel)]="description">
-  </ion-textarea>
-
-  <h2>Photo</h2>
-  <p>Upload or take a photo of the waste</p>
-
-  <div class="photo-buttons">
-    <ion-button expand="block" fill="outline" color="success" (click)="uploadPhoto()">
-      <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
-      Upload Photo
-    </ion-button>
-
-    <ion-button expand="block" fill="outline" color="success" (click)="takePhoto()">
-      <ion-icon name="camera-outline" slot="start"></ion-icon>
-      Take Photo
-    </ion-button>
+  <!-- Bottom Navigation (Icons Only) -->
+  <div class="bottom-nav">
+    <div class="nav-item">
+      <a [routerLink]="['/home']" title="Home">
+        <img src="assets/icon/home.png" alt="Home" />
+      </a>
+    </div>
+    <div class="nav-item">
+      <a [routerLink]="['/rewards']" title="Rewards">
+        <img src="assets/icon/medal.png" alt="Rewards" />
+      </a>
+    </div>
+    <div class="nav-item add-btn">
+      <a [routerLink]="['/report']" title="Add Report">
+        <img src="assets/icon/add.png" alt="Add" />
+      </a>
+    </div>
+    <div class="nav-item">
+      <a [routerLink]="['/reports']" title="Reports">
+        <img src="assets/icon/report.png" alt="Reports" />
+      </a>
+    </div>
+    <div class="nav-item">
+      <a [routerLink]="['/profile']" title="Profile">
+        <img src="assets/icon/user.png" alt="Profile" />
+      </a>
+    </div>
   </div>
 
 </ion-content>

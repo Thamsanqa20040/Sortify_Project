@@ -4,14 +4,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="home-content">
+<ion-content class="home-content" fullscreen="true">
   <div class="header">
     <div class="user-info">
       <div>
-        <h2>Hello, {{ user?.name }}</h2>
+        <h2>Hello, {{ user.name }}</h2>
         <div class="location">
           <img src="assets/home/location-outline.png" class="icon" />
-          <span>{{ user?.address }}</span>
+          <span>{{ user.address }}</span>
         </div>
       </div>
       <div class="notifications">
@@ -26,7 +26,7 @@
           <img src="assets/home/leaf-outline.png" class="points-icon" />
           <div>
             <h4>Your Points</h4>
-            <h1>{{ user?.points }}</h1>
+            <h1>{{ user.points }}</h1>
             <p>Redeem for rewards</p>
           </div>
         </div>
@@ -113,7 +113,7 @@
     </ion-card>
   </div>
 
-  <div class="quick-access">
+  <div class="quick-access" style="padding-bottom: 100px;">
     <ion-card class="access-button">
       <ion-card-content>
         <img src="assets/home/location-outline.png" class="icon" />
@@ -129,35 +129,31 @@
     </ion-card>
   </div>
 
-  <!-- Bottom Navigation -->
-  <div class="bottom-nav">
-    <div class="nav-item">
-      <a [routerLink]="['/home']">
-        <img src="assets/icon/home.png" alt="Home" />
-        <span>Home</span>
+  <!-- Bottom Navigation (Icons Only) -->
+  <div class="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; align-items: center; padding: 10px 0; border-top: 1px solid #ccc; z-index: 999;">
+    <div class="nav-item" style="text-align: center;">
+      <a [routerLink]="['/home']" title="Home">
+        <img src="assets/icon/home.png" alt="Home" style="width: 24px; height: 24px;" />
       </a>
     </div>
-    <div class="nav-item">
-      <a [routerLink]="['/rewards']">
-        <img src="assets/icon/medal.png" alt="Rewards" />
-        <span>Rewards</span>
+    <div class="nav-item" style="text-align: center;">
+      <a [routerLink]="['/rewards']" title="Rewards">
+        <img src="assets/icon/medal.png" alt="Rewards" style="width: 24px; height: 24px;" />
       </a>
     </div>
-    <div class="nav-item add-btn">
-      <a [routerLink]="['/report']">
-        <img src="assets/icon/add.png" alt="Add" />
+    <div class="nav-item add-btn" style="text-align: center;">
+      <a [routerLink]="['/report']" title="Add Report">
+        <img src="assets/icon/add.png" alt="Add" style="width: 40px; height: 40px;" />
       </a>
     </div>
-    <div class="nav-item">
-      <a [routerLink]="['/reports']">
-        <img src="assets/icon/report.png" alt="Report" />
-        <span>Reports</span>
+    <div class="nav-item" style="text-align: center;">
+      <a [routerLink]="['/reports']" title="Reports">
+        <img src="assets/icon/report.png" alt="Reports" style="width: 24px; height: 24px;" />
       </a>
     </div>
-    <div class="nav-item">
-      <a [routerLink]="['/profile']">
-        <img src="assets/icon/user.png" alt="User" />
-        <span>Profile</span>
+    <div class="nav-item" style="text-align: center;">
+      <a [routerLink]="['/profile']" title="Profile">
+        <img src="assets/icon/user.png" alt="Profile" style="width: 24px; height: 24px;" />
       </a>
     </div>
   </div>

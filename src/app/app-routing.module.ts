@@ -32,10 +32,26 @@ const routes: Routes = [
     loadChildren: () => import('./my-reports/my-reports.module').then(m => m.MyReportsPageModule)
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'complete-profile',
+    loadChildren: () => import('./complete-profile/complete-profile.module').then( m => m.CompleteProfilePageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'
-  }
+  },
+  
+
+  
+
+  
+
+  
+
 ];
 
 @NgModule({

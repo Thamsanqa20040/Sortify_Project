@@ -1,0 +1,75 @@
+<ion-content class="complete-profile-content">
+  <div class="profile-container">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-capitalize">Complete Profile</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <div class="header">
+      <h2>Complete Your Profile</h2>
+      <p>Please provide the following information to complete your profile</p>
+      <div class="profile-pic-container">
+        <img src="assets/profile/profile-picture.png" alt="Profile" class="profile-pic" />
+        <ion-icon name="camera" class="camera-icon"></ion-icon>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Full Name</label>
+      <div class="input-group filled">
+        <ion-icon name="person-outline"></ion-icon>
+        <input type="text" placeholder="Sipho Ndlovu" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <div class="input-group filled">
+        <ion-icon name="mail-outline"></ion-icon>
+        <input type="email" placeholder="sipho.ndlovu@example.com" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Phone Number</label>
+      <div class="input-group filled">
+        <ion-icon name="call-outline"></ion-icon>
+        <input type="tel" placeholder="+27 73 123 4567" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Address</label>
+      <div class="input-group filled">
+        <ion-icon name="location-outline"></ion-icon>
+        <input type="text" placeholder="123 Mangosuthu Highway, Umlazi, Durban" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Date of Birth</label>
+      <div class="input-group filled">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <input type="date" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Gender</label>
+      <div class="gender-group">
+        <button class="gender-btn" [ngClass]="{ 'selected': selectedGender === 'Male' }" (click)="selectGender('Male')">Male</button>
+        <button class="gender-btn" [ngClass]="{ 'selected': selectedGender === 'Female' }" (click)="selectGender('Female')">Female</button>
+        <button class="gender-btn" [ngClass]="{ 'selected': selectedGender === 'Other' }" (click)="selectGender('Other')">Other</button>
+        <button class="gender-btn" [ngClass]="{ 'selected': selectedGender === 'Prefer not to say' }" (click)="selectGender('Prefer not to say')">Prefer not to say</button>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <button class="save-btn">Save Profile</button>
+    </div>
+  </div>
+</ion-content>
