@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="home-content" fullscreen="true">
-  <div class="header">
+  <div class="header fade-in">
     <div class="user-info">
       <div>
         <h2>Hello, {{ user.name }}</h2>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <ion-card class="points-card">
+    <ion-card class="points-card slide-up">
       <ion-card-content>
         <div class="points-container">
           <img src="assets/home/leaf-outline.png" class="points-icon" />
@@ -33,7 +33,7 @@
       </ion-card-content>
     </ion-card>
 
-    <div class="stats">
+    <div class="stats slide-up">
       <ion-card class="stat-box">
         <img src="assets/home/refresh.png" class="icon" />
         <h4>{{ totalReports }}</h4>
@@ -53,7 +53,7 @@
       </ion-card>
     </div>
 
-    <ion-card class="report-banner">
+    <ion-card class="report-banner zoom-in">
       <ion-card-content class="banner-flex">
         <div>
           <h3>Report Waste</h3>
@@ -64,7 +64,7 @@
     </ion-card>
   </div>
 
-  <div class="recent-reports">
+  <div class="recent-reports fade-in">
     <div class="section-header">
       <h4>Recent Reports</h4>
       <a href="#">See All →</a>
@@ -113,7 +113,7 @@
     </ion-card>
   </div>
 
-  <div class="quick-access" style="padding-bottom: 100px;">
+  <div class="quick-access fade-in" style="padding-bottom: 100px;">
     <ion-card class="access-button">
       <ion-card-content>
         <img src="assets/home/location-outline.png" class="icon" />
@@ -129,32 +129,22 @@
     </ion-card>
   </div>
 
-  <!-- Bottom Navigation (Icons Only) -->
-  <div class="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; align-items: center; padding: 10px 0; border-top: 1px solid #ccc; z-index: 999;">
-    <div class="nav-item" style="text-align: center;">
-      <a [routerLink]="['/home']" title="Home">
-        <img src="assets/icon/home.png" alt="Home" style="width: 24px; height: 24px;" />
-      </a>
-    </div>
-    <div class="nav-item" style="text-align: center;">
-      <a [routerLink]="['/rewards']" title="Rewards">
-        <img src="assets/icon/medal.png" alt="Rewards" style="width: 24px; height: 24px;" />
-      </a>
-    </div>
-    <div class="nav-item add-btn" style="text-align: center;">
-      <a [routerLink]="['/report']" title="Add Report">
-        <img src="assets/icon/add.png" alt="Add" style="width: 40px; height: 40px;" />
-      </a>
-    </div>
-    <div class="nav-item" style="text-align: center;">
-      <a [routerLink]="['/reports']" title="Reports">
-        <img src="assets/icon/report.png" alt="Reports" style="width: 24px; height: 24px;" />
-      </a>
-    </div>
-    <div class="nav-item" style="text-align: center;">
-      <a [routerLink]="['/profile']" title="Profile">
-        <img src="assets/icon/user.png" alt="Profile" style="width: 24px; height: 24px;" />
-      </a>
-    </div>
+  <!-- ✅ Bottom Navigation (Unchanged) -->
+  <div class="bottom-nav">
+    <a [routerLink]="['/home']" routerLinkActive="active">
+      <img src="assets/icon/home.png" alt="Home" />
+    </a>
+    <a [routerLink]="['/rewards']" routerLinkActive="active">
+      <img src="assets/icon/medal.png" alt="Rewards" />
+    </a>
+    <a [routerLink]="['/report']" class="add-btn" routerLinkActive="active">
+      <img src="assets/icon/add.png" alt="Report" />
+    </a>
+    <a [routerLink]="['/my-reports']" routerLinkActive="active">
+      <img src="assets/icon/report.png" alt="My Reports" />
+    </a>
+    <a [routerLink]="['/profile']" routerLinkActive="active">
+      <img src="assets/icon/user.png" alt="Profile" />
+    </a>
   </div>
 </ion-content>

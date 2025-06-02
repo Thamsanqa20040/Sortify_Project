@@ -1,0 +1,109 @@
+.rewards-page {
+  --padding-bottom: 80px;
+
+  .section-title {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 24px;
+  }
+
+  .points-card {
+    display: flex;
+    background-color: #e0f2f1;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px;
+    align-items: center;
+
+    .icon {
+      font-size: 36px;
+      color: #388e3c;
+      margin-right: 16px;
+    }
+
+    .points-info {
+      h3 {
+        margin: 0;
+        font-size: 24px;
+      }
+      p {
+        margin: 0;
+        color: #666;
+      }
+    }
+  }
+
+  .categories {
+    padding: 0 16px;
+    margin-bottom: 16px;
+  }
+
+  .reward-list {
+    padding: 0 16px;
+    margin-bottom: 100px; // space for nav
+  }
+
+  .reward-card {
+    img {
+      width: 100%;
+      height: auto;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    ion-card-content {
+      .category {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 4px;
+      }
+      h5 {
+        margin: 0;
+      }
+      .description {
+        font-size: 14px;
+        color: #555;
+      }
+      .points {
+        margin-top: 8px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    z-index: 999;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      flex: 1;
+
+      img {
+        width: 28px;
+        height: 28px;
+      }
+
+      &.add-btn img {
+        width: 38px;
+        height: 38px;
+      }
+
+      &.active img {
+        filter: brightness(1.1);
+      }
+    }
+  }
+}

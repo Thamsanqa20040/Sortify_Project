@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rewards</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="rewards-page" fullscreen>
+  <h2 class="section-title">Rewards</h2>
+
+  <div class="points-card">
+    <div class="icon">
+      <ion-icon name="ribbon-outline"></ion-icon>
+    </div>
+    <div class="points-info">
+      <h3>350</h3>
+      <p>Redeem for rewards</p>
+    </div>
+  </div>
+
+  <ion-segment [(ngModel)]="segment" value="available">
+    <ion-segment-button value="available">
+      <ion-label>Available</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="redeemed">
+      <ion-label>Redeemed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="categories">
+    <h4>Categories</h4>
+    <ion-chip *ngFor="let category of categories" outline>{{ category }}</ion-chip>
+  </div>
+
+  <div class="reward-list" *ngIf="segment === 'available'">
+    <ion-card *ngFor="let reward of availableRewards" class="reward-card">
+      <img [src]="reward.image" alt="{{ reward.title }}" />
+      <ion-card-content>
+        <p class="category">{{ reward.category }}</p>
+        <h5>{{ reward.title }}</h5>
+        <p class="description">{{ reward.description }}</p>
+        <p class="points">Points: <span>{{ reward.points }}</span></p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Bottom Navigation inside content (same as Profile page) -->
+  <div class="bottom-nav">
+    <a [routerLink]="['/home']" routerLinkActive="active">
+      <img src="assets/icon/home.png" alt="Home" />
+    </a>
+    <a [routerLink]="['/rewards']" routerLinkActive="active">
+      <img src="assets/icon/medal.png" alt="Rewards" />
+    </a>
+    <a [routerLink]="['/report']" class="add-btn" routerLinkActive="active">
+      <img src="assets/icon/add.png" alt="Report" />
+    </a>
+    <a [routerLink]="['/my-reports']" routerLinkActive="active">
+      <img src="assets/icon/report.png" alt="My Reports" />
+    </a>
+    <a [routerLink]="['/profile']" routerLinkActive="active">
+      <img src="assets/icon/user.png" alt="Profile" />
+    </a>
+  </div>
+</ion-content>
