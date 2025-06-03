@@ -1,0 +1,145 @@
+<!-- admin-dashboard.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Admin Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="refreshData()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <h1>Welcome back, Admin</h1>
+    <p>Here's what's happening with your waste management system today.</p>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-card primary">
+      <div class="metric-icon">
+        <ion-icon name="document-text-outline"></ion-icon>
+      </div>
+      <div class="metric-info">
+        <h2>{{ stats.totalReports }}</h2>
+        <p>Total Reports</p>
+        <span class="metric-change positive">+{{ stats.todayReports }} today</span>
+      </div>
+    </div>
+
+    <div class="metric-card warning">
+      <div class="metric-icon">
+        <ion-icon name="time-outline"></ion-icon>
+      </div>
+      <div class="metric-info">
+        <h2>{{ stats.pendingReports }}</h2>
+        <p>Pending Reports</p>
+        <span class="metric-change">Needs attention</span>
+      </div>
+    </div>
+
+    <div class="metric-card success">
+      <div class="metric-icon">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </div>
+      <div class="metric-info">
+        <h2>{{ stats.collectedReports }}</h2>
+        <p>Collected</p>
+        <span class="metric-change positive">+15 this week</span>
+      </div>
+    </div>
+
+    <div class="metric-card secondary">
+      <div class="metric-icon">
+        <ion-icon name="people-outline"></ion-icon>
+      </div>
+      <div class="metric-info">
+        <h2>{{ stats.totalUsers }}</h2>
+        <p>Total Users</p>
+        <span class="metric-change positive">{{ stats.activeUsers }} active</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="section">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+      <div *ngFor="let action of quickActions" 
+           class="action-card" 
+           (click)="navigateTo(action.route)">
+        <div class="action-icon" [ngClass]="action.color">
+          <ion-icon [name]="action.icon"></ion-icon>
+        </div>
+        <div class="action-info">
+          <h3>{{ action.title }}</h3>
+          <p>{{ action.subtitle }}</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Recent Activity</h2>
+      <ion-button fill="clear" size="small">
+        View All
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+    
+    <div class="activity-list">
+      <div *ngFor="let activity of recentActivities" class="activity-item">
+        <div class="activity-icon" [ngClass]="activity.color">
+          <ion-icon [name]="activity.icon"></ion-icon>
+        </div>
+        <div class="activity-content">
+          <p class="activity-message">{{ activity.message }}</p>
+          <span class="activity-time">{{ activity.time }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance Overview -->
+  <div class="section">
+    <h2 class="section-title">Performance Overview</h2>
+    <div class="performance-cards">
+      <div class="performance-card">
+        <div class="performance-header">
+          <h3>Weekly Reports</h3>
+          <ion-icon name="trending-up-outline" color="success"></ion-icon>
+        </div>
+        <div class="performance-value">
+          <span class="value">{{ stats.weeklyReports }}</span>
+          <span class="change positive">+12%</span>
+        </div>
+        <div class="performance-bar">
+          <div class="bar-fill" style="width: 68%"></div>
+        </div>
+      </div>
+
+      <div class="performance-card">
+        <div class="performance-header">
+          <h3>Points Awarded</h3>
+          <ion-icon name="trophy-outline" color="warning"></ion-icon>
+        </div>
+        <div class="performance-value">
+          <span class="value">{{ stats.totalPoints }}</span>
+          <span class="change positive">+8%</span>
+        </div>
+        <div class="performance-bar">
+          <div class="bar-fill" style="width: 85%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -44,6 +44,26 @@ const routes: Routes = [
     loadChildren: () => import('./rewards/rewards.module').then( m => m.RewardsPageModule)
   },
   {
+    path: 'dashboard',
+    loadChildren: () => import('./admin/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'manage-users',
+    loadChildren: () => import('./admin/manage-users/manage-users.module').then( m => m.ManageUsersPageModule)
+  },
+  {
+    path: 'manage-rewards',
+    loadChildren: () => import('./admin/manage-rewards/manage-rewards.module').then( m => m.ManageRewardsPageModule)
+  },
+  {
+    path: 'manage-reports',
+    loadChildren: () => import('./admin/manage-reports/manage-reports.module').then( m => m.ManageReportsPageModule)
+  },
+  {
+    path: 'manage-sites',
+    loadChildren: () => import('./admin/manage-sites/manage-sites.module').then( m => m.ManageSitesPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'

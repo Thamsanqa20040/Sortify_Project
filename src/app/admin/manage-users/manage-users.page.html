@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Users</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="addNewUser()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Search and Filters -->
+  <div class="filter-section">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="filterUsers()" 
+      placeholder="Search users by name, email, or location"
+      show-clear-button="focus">
+    </ion-searchbar>
+    
+    <div class="filter-row">
+      <ion-select 
+        [(ngModel)]="filterStatus" 
+        (ionChange)="filterUsers()" 
+        placeholder="Filter by Status"
+        interface="popover">
+        <ion-select-option value="all">All Status</ion-select-option>
+        <ion-select-option value="active">Active</ion-select-option>
+        <ion-select-option value="inactive">Inactive</ion-select-option>
+        <ion-select-option value="suspended">Suspended</ion-select-option>
+      </ion-select>
+      
+      <ion-select 
+        [(ngModel)]="filterRole" 
+        (ionChange)="filterUsers()" 
+        placeholder="Filter by Role"
+        interface="popover">
+        <ion-select-option value="all">All Roles</ion-select-option>
+        <ion-select-option value="user">Users</ion-select-option>
+        <ion-select-option value="collector">Collectors</ion-select-option>
+        <ion-select-option value="admin">Admins</ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <!-- User Stats -->
+  <div class="user-stats">
+    <div class="stat-item">
+      <ion-icon name="people-outline" color="primary"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ totalUsers }}</h3>
+        <p>Total Users</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ activeCount }}</h3>
+        <p>Active</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <ion-icon name="time-outline" color="medium"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ inactiveCount }}</h3>
+        <p>Inactive</p>
+      </div>
+    </div>
+    <div class="stat-item">
+      <ion-icon name="ban-outline" color="danger"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ suspendedCount }}</h3>
+        <p>Suspended</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users List -->
+  <div class="users-section">
+    <h2>Users ({{ filteredUsers.length }})</h2>
+    
+    <div *ngIf="filteredUsers.length === 0" class="no-users">
+      <ion-icon name="people-outline" size="large" color="medium"></ion-icon>
+      <p>No users found matching your criteria.</p>
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let user of filteredUsers" (click)="presentUserActions(user)">
+        <ion-avatar slot="start">
+          <div class="avatar-initials" [style.background]="getRoleColor(user.role)">
+            {{ getUserInitials(user.name) }}
+          </div>
+        </ion-avatar>
+        
+        <ion-label>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+          <p>{{ user.location }}</p>
+        </ion-label>
+        
+        <div slot="end" class="user-meta">
+          <ion-chip [color]="getStatusColor(user.status)" size="small">
+            {{ user.status | titlecase }}
+          </ion-chip>
+          <ion-chip [color]="getRoleColor(user.role)" size="small">
+            {{ user.role | titlecase }}
+          </ion-chip>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

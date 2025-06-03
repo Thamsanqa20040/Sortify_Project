@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Reports</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="refreshReports()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Search and Filters -->
+  <div class="filter-section">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="filterReports()" 
+      placeholder="Search reports, users, or locations"
+      show-clear-button="focus">
+    </ion-searchbar>
+    
+    <div class="filter-row">
+      <ion-select 
+        [(ngModel)]="filterStatus" 
+        (ionChange)="filterReports()" 
+        placeholder="Filter by Status"
+        interface="popover">
+        <ion-select-option value="all">All Status</ion-select-option>
+        <ion-select-option value="pending">Pending</ion-select-option>
+        <ion-select-option value="assigned">Assigned</ion-select-option>
+        <ion-select-option value="collected">Collected</ion-select-option>
+        <ion-select-option value="rejected">Rejected</ion-select-option>
+      </ion-select>
+      
+      <ion-select 
+        [(ngModel)]="filterType" 
+        (ionChange)="filterReports()" 
+        placeholder="Filter by Type"
+        interface="popover">
+        <ion-select-option value="all">All Types</ion-select-option>
+        <ion-select-option value="plastic">Plastic</ion-select-option>
+        <ion-select-option value="paper">Paper</ion-select-option>
+        <ion-select-option value="glass">Glass</ion-select-option>
+        <ion-select-option value="metal">Metal</ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <!-- Stats Summary -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <ion-icon name="time-outline" color="medium"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ pendingCount }}</h3>
+        <p>Pending</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <ion-icon name="person-outline" color="warning"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ assignedCount }}</h3>
+        <p>Assigned</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+      <div class="stat-info">
+        <h3>{{ collectedCount }}</h3>
+        <p>Collected</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reports List -->
+  <div class="reports-section">
+    <h2>Reports ({{ filteredReports.length }})</h2>
+    
+    <div *ngIf="filteredReports.length === 0" class="no-reports">
+      <ion-icon name="document-outline" size="large" color="medium"></ion-icon>
+      <p>No reports found matching your criteria.</p>
+    </div>
+
+    <ion-card *ngFor="let report of filteredReports" class="report-card" (click)="presentReportActions(report)">
+      <ion-card-content>
+        <div class="report-header">
+          <div class="chips">
+            <ion-chip [color]="getTypeColor(report.type)" size="small">
+              {{ report.type }}
+            </ion-chip>
+            <ion-chip [color]="getStatusColor(report.status)" size="small">
+              {{ report.status | titlecase }}
+            </ion-chip>
+            <ion-chip [color]="getPriorityColor(report.priority)" size="small">
+              {{ report.priority | titlecase }} Priority
+            </ion-chip>
+          </div>
+          <ion-button fill="clear" size="small">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="report-content">
+          <img [src]="report.image" alt="{{ report.type }}" class="report-image" />
+          <div class="report-details">
+            <h3 class="report-title">{{ report.title }}</h3>
+            <p class="report-user">
+              <ion-icon name="person-outline"></ion-icon>
+              {{ report.userName }}
+            </p>
+            <p class="report-location">
+              <ion-icon name="location-outline"></ion-icon>
+              {{ report.location }}
+            </p>
+            <p class="report-date">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ report.date }}
+            </p>
+            <div class="report-meta">
+              <div class="points">
+                <ion-icon name="trophy-outline" color="warning"></ion-icon>
+                <strong>{{ report.points }} points</strong>
+              </div>
+              <div *ngIf="report.assignedTo" class="assigned-to">
+                <ion-icon name="person-circle-outline" color="primary"></ion-icon>
+                <span>{{ report.assignedTo }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
