@@ -1,13 +1,210 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>manage-rewards</ion-title>
+    <ion-title>Manage Rewards</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exportData()">
+        <ion-icon name="download-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="addReward()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">manage-rewards</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="manage-rewards-page" fullscreen>
+
+  <!-- Dashboard Stats -->
+  <div class="stats-section">
+    <h2 class="section-title">Dashboard Overview</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <ion-icon name="gift-outline" color="primary"></ion-icon>
+        <div class="stat-info">
+          <h3>{{ stats.totalRewards }}</h3>
+          <p>Total Rewards</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+        <div class="stat-info">
+          <h3>{{ stats.activeRewards }}</h3>
+          <p>Active Rewards</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <ion-icon name="people-outline" color="warning"></ion-icon>
+        <div class="stat-info">
+          <h3>{{ stats.totalRedemptions }}</h3>
+          <p>Total Redemptions</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <ion-icon name="time-outline" color="danger"></ion-icon>
+        <div class="stat-info">
+          <h3>{{ stats.pendingRedemptions }}</h3>
+          <p>Pending Approvals</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segment Control -->
+  <ion-segment [(ngModel)]="segment" value="rewards">
+    <ion-segment-button value="rewards">
+      <ion-label>Rewards Management</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="redemptions">
+      <ion-label>Redemptions</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Rewards Management Section -->
+  <div *ngIf="segment === 'rewards'">
+    <!-- Category Filter -->
+    <div class="categories">
+      <h4>Filter by Category</h4>
+      <ion-select [(ngModel)]="selectedCategory" placeholder="Select Category">
+        <ion-select-option *ngFor="let category of categories" [value]="category.toLowerCase()">
+          {{ category }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Rewards List -->
+    <div class="reward-list">
+      <ion-card *ngFor="let reward of filteredRewards" class="reward-card">
+        <div class="reward-header">
+          <img [src]="reward.image" [alt]="reward.title" />
+          <ion-badge [color]="getStatusColor(reward.status)" class="status-badge">
+            {{ reward.status | titlecase }}
+          </ion-badge>
+        </div>
+        <ion-card-content>
+          <div class="reward-info">
+            <p class="category">{{ reward.category }}</p>
+            <h5>{{ reward.title }}</h5>
+            <p class="description">{{ reward.description }}</p>
+            
+            <div class="reward-details">
+              <div class="detail-item">
+                <ion-icon name="diamond-outline"></ion-icon>
+                <span>{{ reward.points }} Points</span>
+              </div>
+              <div class="detail-item" *ngIf="reward.stock !== undefined">
+                <ion-icon name="layers-outline"></ion-icon>
+                <span>Stock: {{ reward.stock }}</span>
+              </div>
+              <div class="detail-item">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>Redeemed: {{ reward.totalRedeemed }}</span>
+              </div>
+              <div class="detail-item">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>Created: {{ reward.dateCreated | date:'short' }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="reward-actions">
+            <ion-button fill="outline" size="small" (click)="editReward(reward)">
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              Manage
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Redemptions Management Section -->
+  <div *ngIf="segment === 'redemptions'">
+    
+    <!-- Pending Redemptions -->
+    <div class="redemptions-section">
+      <h4>
+        <ion-icon name="time-outline" color="warning"></ion-icon>
+        Pending Approvals ({{ pendingRedemptions.length }})
+      </h4>
+      
+      <ion-card *ngFor="let redemption of pendingRedemptions" class="redemption-card">
+        <ion-card-content>
+          <div class="redemption-header">
+            <div class="user-info">
+              <h5>{{ redemption.userName }}</h5>
+              <p class="email">{{ redemption.userEmail }}</p>
+            </div>
+            <ion-badge [color]="getStatusColor(redemption.status)">
+              {{ redemption.status | titlecase }}
+            </ion-badge>
+          </div>
+          
+          <div class="redemption-details">
+            <div class="reward-info">
+              <h6>{{ redemption.rewardTitle }}</h6>
+              <div class="detail-row">
+                <span><ion-icon name="diamond-outline"></ion-icon> {{ redemption.pointsUsed }} Points</span>
+                <span><ion-icon name="calendar-outline"></ion-icon> {{ redemption.redemptionDate | date:'short' }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="redemption-notes" *ngIf="redemption.notes">
+            <p><strong>Notes:</strong> {{ redemption.notes }}</p>
+          </div>
+          
+          <div class="redemption-actions">
+            <ion-button fill="solid" color="success" size="small" (click)="manageRedemption(redemption)">
+              <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+              Manage
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Completed Redemptions -->
+    <div class="redemptions-section">
+      <h4>
+        <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
+        Recent Completed ({{ completedRedemptions.length }})
+      </h4>
+      
+      <ion-card *ngFor="let redemption of completedRedemptions" class="redemption-card completed">
+        <ion-card-content>
+          <div class="redemption-header">
+            <div class="user-info">
+              <h5>{{ redemption.userName }}</h5>
+              <p class="email">{{ redemption.userEmail }}</p>
+            </div>
+            <ion-badge [color]="getStatusColor(redemption.status)">
+              {{ redemption.status | titlecase }}
+            </ion-badge>
+          </div>
+          
+          <div class="redemption-details">
+            <div class="reward-info">
+              <h6>{{ redemption.rewardTitle }}</h6>
+              <div class="detail-row">
+                <span><ion-icon name="diamond-outline"></ion-icon> {{ redemption.pointsUsed }} Points</span>
+                <span><ion-icon name="calendar-outline"></ion-icon> {{ redemption.redemptionDate | date:'short' }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="redemption-notes" *ngIf="redemption.notes">
+            <p><strong>Notes:</strong> {{ redemption.notes }}</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addReward()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
