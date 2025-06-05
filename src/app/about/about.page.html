@@ -1,13 +1,52 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>about</ion-title>
+  <ion-toolbar color="success">
+    <ion-title>About SortiFy</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">about</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="about-content">
+  <ion-card class="about-card">
+    <img
+      src="assets/logo/sortify-logo.png"
+      alt="Sortify Logo"
+      class="about-logo"
+    />
+    <ion-card-header>
+      <ion-card-title>What is SortiFy?</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        SortiFy is your smart recycling assistant. We help users learn about waste sorting,
+        track recycling habits, and engage in green community projects.
+        We're all about saving the environment — and saving money while doing it.
+      </p>
+      <p>
+        Our mobile app uses real-time GPS to guide users to nearby waste bins, recycling centers,
+        and eco-drop points based on the type of waste they need to dispose of.
+        With personalized tips, smart sorting suggestions, and support for rewards,
+        we’re not just helping you throw stuff away — we’re helping you sort it forward.
+      </p>
+
+      <ion-card-subtitle>The Birth of SortiFy</ion-card-subtitle>
+      <p>
+        Born out of a university project, Sortify started as a way to reduce waste mismanagement
+        in our own neighborhoods. What began as a prototype has grown into a full-fledged
+        platform empowering people across the country.
+      </p>
+
+      <ion-card-subtitle>Why It Matters</ion-card-subtitle>
+      <p>
+        Sortify solves the real problem of poor waste management by making education,
+        reporting, and community involvement easy. It reduces waste build-up, encourages recycling,
+        and bridges the gap between communities and waste management services.
+      </p>
+
+      <ion-card-subtitle>Join the Movement</ion-card-subtitle>
+      <p>Use SortiFy today and turn trash into treasure. 🌱♻️</p>
+
+      <ion-button expand="block" color="success" routerLink="/home">
+        ← Back to Home
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

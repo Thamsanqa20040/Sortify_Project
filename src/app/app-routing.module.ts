@@ -64,19 +64,22 @@ const routes: Routes = [
     loadChildren: () => import('./admin/manage-sites/manage-sites.module').then( m => m.ManageSitesPageModule)
   },
   {
+    path: 'forgot-password',
+    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'
+  },   {
+    path: 'recycling-centers',
+    loadChildren: () => import('./recycling-centers/recycling-centers.module').then( m => m.RecyclingCentersPageModule)
   },
-  
+  {
+    path: 'recycling-business',
+    loadChildren: () => import('./recycling-business/recycling-business.module').then( m => m.RecyclingBusinessPageModule)
+  },
 
-  
-
-  
-
-  
-
-  
 
 ];
 
