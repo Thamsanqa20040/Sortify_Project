@@ -1,9 +1,30 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="success">
     <ion-title>Recycling Centers</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <p>This is the Recycling Centers page.</p>
+<ion-content class="recycling-centers-content ion-padding">
+  <div class="center-header">
+    <img src="assets/logo/sortify-logo.png" alt="SortiFy Logo" class="center-logo" />
+    <h2>Find a Recycling Center Near You</h2>
+    <p class="subtitle">
+      Discover eco-friendly drop-off points and recycling centers in your area.
+    </p>
+  </div>
+
+  <ion-list class="center-list">
+    <ion-item *ngFor="let center of recyclingCenters">
+      <ion-icon name="location-outline" slot="start" color="success"></ion-icon>
+      <ion-label>
+        <h3>{{ center.name }}</h3>
+        <p>{{ center.address }}</p>
+        <p class="center-hours">Open: {{ center.hours }}</p>
+      </ion-label>
+      <ion-button fill="clear" color="success" slot="end" [href]="center.mapLink" target="_blank">
+        <ion-icon name="navigate-outline"></ion-icon>
+        Directions
+      </ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

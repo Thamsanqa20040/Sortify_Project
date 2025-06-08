@@ -35,4 +35,5 @@ export class HomePage {
   goToSupportPage() {
     this.router.navigate(['/support']);
   }
+  
 }

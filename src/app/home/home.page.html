@@ -114,12 +114,12 @@
   </div>
 
   <div class="quick-access fade-in" style="padding-bottom: 100px;">
-    <ion-card class="access-button">
-      <ion-card-content>
-        <img src="assets/home/location-outline.png" class="icon" />
-        <h5>Recycling Centers</h5>
-      </ion-card-content>
-    </ion-card>
+    <ion-card class="access-button" (click)="goToCentersPage()" button>
+  <ion-card-content>
+    <img src="assets/home/location-outline.png" class="icon" />
+    <h5>Recycling Centers</h5>
+  </ion-card-content>
+</ion-card>
 
     <ion-card class="access-button">
       <ion-card-content>

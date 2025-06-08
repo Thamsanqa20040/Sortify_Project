@@ -1,0 +1,33 @@
+.recycling-centers-content {
+  --background: linear-gradient(120deg, #2E8B57, #20B2AA);
+  min-height: 100vh;
+}
+
+.center-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.center-logo {
+  width: 80px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+}
+
+.subtitle {
+  color: #2E8B57;
+  font-size: 1.1em;
+  margin-top: 0;
+}
+
+.center-list ion-item {
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(46, 139, 87, 0.07);
+}
+
+.center-hours {
+  color: #20B2AA;
+  font-size: 0.95em;
+}

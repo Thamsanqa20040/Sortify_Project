@@ -68,13 +68,15 @@ const routes: Routes = [
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
+  path: 'recycling-centers',
+    loadChildren: () => import('./recycling-centers/recycling-centers.module').then( m => m.RecyclingCentersPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'
-  },   {
-    path: 'recycling-centers',
-    loadChildren: () => import('./recycling-centers/recycling-centers.module').then( m => m.RecyclingCentersPageModule)
-  },
+  }, 
+    
   {
     path: '**',
     redirectTo: 'login',
