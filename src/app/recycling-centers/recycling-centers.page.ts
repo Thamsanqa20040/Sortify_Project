@@ -21,7 +21,7 @@ recyclingCenters = [
     name: 'Durban Recycling Hub',
     address: '456 Ocean Ave, Durban',
     hours: '9:00 AM - 6:00 PM',
-    mapLink: 'https://maps.google.com/?q=Durban+Recycling+Hub'
+    mapLink: 'https://www.google.com/maps/search/?api=1&query=123+Green+St,+Umlazi,+Durban'
   }
 ];
 
