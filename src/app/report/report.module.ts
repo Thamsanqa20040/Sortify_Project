@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 
 import { ReportPageRoutingModule } from './report-routing.module';
 
@@ -13,7 +14,13 @@ import { ReportPage } from './report.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ReportPageRoutingModule
+    ReportPageRoutingModule,
+    RouterModule.forChild([
+      {
+        path: '',
+        component: ReportPage
+      }
+    ])
   ],
   declarations: [ReportPage]
 })

@@ -45,20 +45,24 @@
 
   <!-- Bottom Navigation inside content (same as Profile page) -->
   <div class="bottom-nav">
-    <a [routerLink]="['/home']" routerLinkActive="active">
-      <img src="assets/icon/home.png" alt="Home" />
+    <a routerLink="/home" class="nav-item">
+      <div class="nav-icon">🏠</div>
+      Home
     </a>
-    <a [routerLink]="['/rewards']" routerLinkActive="active">
-      <img src="assets/icon/medal.png" alt="Rewards" />
+    <a routerLink="/rewards" class="nav-item">
+      <div class="nav-icon">🏆</div>
+      Rewards
     </a>
-    <a [routerLink]="['/report']" class="add-btn" routerLinkActive="active">
-      <img src="assets/icon/add.png" alt="Report" />
+    <a routerLink="/report" class="nav-item add-btn active">
+      <div class="nav-icon">➕</div>
     </a>
-    <a [routerLink]="['/my-reports']" routerLinkActive="active">
-      <img src="assets/icon/report.png" alt="My Reports" />
+    <a routerLink="/recycling-centers" class="nav-item">
+      <div class="nav-icon">♻️</div>
+      Recycling Centers
     </a>
-    <a [routerLink]="['/profile']" routerLinkActive="active">
-      <img src="assets/icon/user.png" alt="Profile" />
+    <a routerLink="/profile" class="nav-item">
+      <div class="nav-icon">👤</div>
+      Profile
     </a>
   </div>
 </ion-content>

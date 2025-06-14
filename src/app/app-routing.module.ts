@@ -72,6 +72,10 @@ const routes: Routes = [
     loadChildren: () => import('./recycling-centers/recycling-centers.module').then( m => m.RecyclingCentersPageModule)
   },
   {
+    path: 'learn',
+    loadChildren: () => import('./learn/learn.module').then( m => m.LearnPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'
@@ -82,6 +86,8 @@ const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full'
   },
+  
+
 
   /*{
     path: 'recycling-business',

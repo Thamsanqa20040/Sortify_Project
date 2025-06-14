@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { NavController } from '@ionic/angular';
 
 // Firebase imports
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -11,195 +9,166 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
   templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss']
+  styleUrls: ['./register.page.scss'],
+  standalone: false,
 })
-export class RegisterPage {
-  // Form fields
-  fullName: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  acceptTerms: boolean = false;
-  
-  // UI state
-  showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
-  isLoading: boolean = false;
+export class RegisterPage implements OnInit {
+  registerForm: FormGroup;
+  showPassword = false;
+  showConfirmPassword = false;
+  isLoading = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private navCtrl: NavController
+  ) {
+    this.registerForm = this.formBuilder.group(
+      {
+        fullName: ['', [Validators.required, Validators.minLength(2)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
+        acceptTerms: [false, [Validators.requiredTrue]],
+      },
+      {
+        validators: this.passwordMatchValidator,
+      }
+    );
+  }
 
-  // Toggle password visibility
-  togglePassword() {
+  ngOnInit() {}
+
+  passwordMatchValidator(control: AbstractControl) {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    return null;
+  }
+
+  hasFieldError(fieldName: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field && field.invalid && field.touched);
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.registerForm.get(fieldName);
+    if (field && field.errors && field.touched) {
+      if (field.errors['required']) {
+        return `${this.getFieldLabel(fieldName)} is required`;
+      }
+      if (field.errors['email']) {
+        return 'Please enter a valid email address';
+      }
+      if (field.errors['minlength']) {
+        const minLength = field.errors['minlength'].requiredLength;
+        return `${this.getFieldLabel(fieldName)} must be at least ${minLength} characters`;
+      }
+      if (field.errors['passwordMismatch']) {
+        return 'Passwords do not match';
+      }
+      if (field.errors['requiredTrue']) {
+        return 'You must accept the terms and conditions';
+      }
+    }
+    return '';
+  }
+
+  getFieldLabel(fieldName: string): string {
+    const labels: { [key: string]: string } = {
+      fullName: 'Full name',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      acceptTerms: 'Terms and Conditions',
+    };
+    return labels[fieldName] || fieldName;
+  }
+
+  togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // Toggle confirm password visibility
-  toggleConfirmPassword() {
+  toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  // Validate form inputs
-  private validateForm(): string | null {
-    // Check if all fields are filled
-    if (!this.fullName.trim()) {
-      return 'Please enter your full name';
-    }
-    
-    if (!this.email.trim()) {
-      return 'Please enter your email address';
-    }
-    
-    if (!this.password) {
-      return 'Please enter a password';
-    }
-    
-    if (!this.confirmPassword) {
-      return 'Please confirm your password';
-    }
-    
-    if (!this.acceptTerms) {
-      return 'Please accept the terms and conditions';
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.email)) {
-      return 'Please enter a valid email address';
-    }
-
-    // Validate password strength
-    if (this.password.length < 6) {
-      return 'Password must be at least 6 characters long';
-    }
-
-    // Check if passwords match
-    if (this.password !== this.confirmPassword) {
-      return 'Passwords do not match';
-    }
-
-    return null; // All validations passed
-  }
-
-  // Show alert message
-  private async showAlert(message: string, isError: boolean = true) {
-    // You can customize this to use ionic alerts or toast notifications
-    if (isError) {
-      console.error(message);
-      alert(message); // Replace with proper ionic alert
-    } else {
-      console.log(message);
-      alert(message); // Replace with proper ionic toast
-    }
-  }
-
-  // Register user
   async register() {
-    // Prevent multiple submissions
-    if (this.isLoading) {
-      return;
-    }
+    if (this.isLoading) return;
 
-    // Validate form
-    const validationError = this.validateForm();
-    if (validationError) {
-      await this.showAlert(validationError);
+    if (!this.registerForm.valid) {
+      this.registerForm.markAllAsTouched();
       return;
     }
 
     this.isLoading = true;
 
+    const { fullName, email, password } = this.registerForm.value;
+
     try {
       const auth = getAuth();
       const db = getFirestore();
 
-      // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(
-        auth, 
-        this.email.trim(), 
-        this.password
-      );
-      
+      const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
       const uid = userCredential.user.uid;
 
-      // Save additional user data to Firestore
       await setDoc(doc(db, 'Users', uid), {
-        fullName: this.fullName.trim(),
-        email: this.email.trim(),
+        fullName: fullName.trim(),
+        email: email.trim(),
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString(),
-        isActive: true
+        isActive: true,
       });
 
-      // Show success message
-      await this.showAlert('Registration successful! Welcome aboard!', false);
-      
-      // Clear form
-      this.clearForm();
-      
-      // Navigate to login page
+      alert('Registration successful! Welcome aboard!');
       this.router.navigate(['/login']);
-      
     } catch (error: any) {
-      console.error('Registration error:', error);
-      
-      // Handle specific Firebase errors
       let errorMessage = 'Registration failed. Please try again.';
-      
       switch (error.code) {
         case 'auth/email-already-in-use':
-          errorMessage = 'This email is already registered. Please use a different email or try logging in.';
+          errorMessage = 'This email is already registered.';
           break;
         case 'auth/invalid-email':
-          errorMessage = 'Please enter a valid email address.';
-          break;
-        case 'auth/operation-not-allowed':
-          errorMessage = 'Email/password registration is not enabled. Please contact support.';
+          errorMessage = 'Invalid email address.';
           break;
         case 'auth/weak-password':
-          errorMessage = 'Password is too weak. Please choose a stronger password.';
+          errorMessage = 'Password is too weak.';
           break;
         case 'auth/network-request-failed':
-          errorMessage = 'Network error. Please check your internet connection and try again.';
+          errorMessage = 'Network error. Check your connection.';
           break;
         default:
-          errorMessage = error.message || 'An unexpected error occurred. Please try again.';
+          errorMessage = error.message || errorMessage;
       }
-      
-      await this.showAlert(errorMessage);
+      alert(errorMessage);
     } finally {
       this.isLoading = false;
     }
   }
 
-  // Clear form data
-  private clearForm() {
-    this.fullName = '';
-    this.email = '';
-    this.password = '';
-    this.confirmPassword = '';
-    this.acceptTerms = false;
-    this.showPassword = false;
-    this.showConfirmPassword = false;
+  navigateToLogin() {
+    this.navCtrl.navigateRoot('/login');
   }
 
-  // Navigate to login page
-  goToLogin() {
-    this.router.navigate(['/login']);
+  navigateToTerms() {
+    this.router.navigate(['/terms']);
   }
 
-  // Handle social login (placeholder methods)
+  navigateToPrivacy() {
+    this.router.navigate(['/privacy']);
+  }
+
   async loginWithGoogle() {
-    // Implement Google login
     console.log('Google login clicked');
-    // You can implement this using Firebase Auth with Google provider
+    // Firebase Google login implementation here
   }
 
   async loginWithFacebook() {
-    // Implement Facebook login
     console.log('Facebook login clicked');
-    // You can implement this using Firebase Auth with Facebook provider
+    // Firebase Facebook login implementation here
   }
 }
