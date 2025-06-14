@@ -1,4 +1,11 @@
 <ion-content class="login-content">
+  <!-- Animated background elements -->
+  <div class="bg-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
 
   <div class="login-container">
     <!-- Welcome Message -->
@@ -8,42 +15,52 @@
     </div>
 
     <!-- Email Field -->
-<div class="input-box">
-  <ion-icon name="mail-outline" class="input-icon"></ion-icon>
-  <input [(ngModel)]="email" type="email" placeholder="Enter your email" class="input-field" />
-</div>
+    <div class="input-box">
+      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+      <input [(ngModel)]="email" type="email" placeholder="Enter your email" class="input-field" />
+    </div>
 
-
-   
-    <!-- Password Field with Toggle Icon -->
-<div class="input-box password-box">
-  <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
-  <input
-    [(ngModel)]="password"
-    [type]="showPassword ? 'text' : 'password'"
-    placeholder="Enter your password"
-    class="input-field"
-  />
-  <ion-icon
-    [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-    class="toggle-password-icon"
-    (click)="showPassword = !showPassword"
-  ></ion-icon>
-</div>
-
+    <!-- Password Field -->
+    <div class="input-box">
+      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <circle cx="12" cy="16" r="1"></circle>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <input 
+        [(ngModel)]="password" 
+        [type]="showPassword ? 'text' : 'password'" 
+        placeholder="Enter your password" 
+        class="input-field" 
+      />
+      <button type="button" class="password-toggle" (click)="togglePassword()">
+        {{ showPassword ? '🙈' : '👁️' }}
+      </button>
+    </div>
 
     <!-- Forgot Password -->
-<ion-text class="forgot-password">
-  <a routerLink="/forgot-password">Forgot Password?</a>
-</ion-text>
+    <div class="forgot-password">
+      <a href="#">Forgot Password?</a>
+    </div>
 
     <!-- Login Button -->
-    <ion-button expand="block" class="login-button" (click)="login()">Login</ion-button>
+    <ion-button 
+      expand="block" 
+      class="login-button" 
+      [class.loading]="isLoading"
+      (click)="login()"
+      [disabled]="isLoading"
+    >
+      {{ isLoading ? 'Logging in...' : 'Login' }}
+    </ion-button>
 
     <!-- Register Link -->
     <div class="register-link">
       <p>Don't have an account? <a routerLink="/register">Register Now</a></p>
     </div>
   </div>
-
+  
 </ion-content>
