@@ -1,0 +1,175 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Learn</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="learn-content">
+  <div class="container">
+    <div class="hero-section">
+      <h2>Learn & Earn</h2>
+      <p class="subtext">Master waste management and maximize your impact points</p>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="overallProgress"></div>
+      </div>
+      <p class="progress-text">{{ completedLessons }}/{{ totalLessons }} lessons completed</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <img src="assets/icon/medal.png" alt="Points" class="stat-icon">
+        <div class="stat-info">
+          <h4>{{ userPoints }}</h4>
+          <p>Total Points</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <img src="assets/icon/report.png" alt="Reports" class="stat-icon">
+        <div class="stat-info">
+          <h4>{{ userReports }}</h4>
+          <p>Reports Made</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <img src="assets/icon/leaf.png" alt="Impact" class="stat-icon">
+        <div class="stat-info">
+          <h4>{{ impactScore }}</h4>
+          <p>Impact Score</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learning Categories -->
+    <h3>Learning Categories</h3>
+    <div class="category-grid">
+      <div 
+        *ngFor="let category of learningCategories" 
+        class="category-card"
+        [class.completed]="category.completed"
+        (click)="openCategory(category)"
+      >
+        <div class="category-icon">
+          <img [src]="category.icon" alt="category.title">
+          <ion-icon *ngIf="category.completed" name="checkmark-circle" color="success" class="completed-badge"></ion-icon>
+        </div>
+        <div class="category-content">
+          <h4>{{ category.title }}</h4>
+          <p>{{ category.description }}</p>
+          <div class="category-progress">
+            <div class="progress-bar small">
+              <div class="progress-fill" [style.width.%]="category.progress"></div>
+            </div>
+            <span class="progress-label">{{ category.completedLessons }}/{{ category.totalLessons }}</span>
+          </div>
+          <div class="category-points">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>+{{ category.points }} points</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Tips -->
+    <h3>Daily Eco Tips</h3>
+    <div class="tip-card" *ngIf="dailyTip">
+      <div class="tip-header">
+        <ion-icon name="bulb" color="warning"></ion-icon>
+        <span>Tip of the Day</span>
+      </div>
+      <p>{{ dailyTip.content }}</p>
+      <div class="tip-action">
+        <ion-button size="small" fill="outline" (click)="markTipRead()">
+          <ion-icon name="checkmark" slot="start"></ion-icon>
+          Got it! (+5 points)
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Featured Lesson -->
+    <h3>Featured Lesson</h3>
+    <div class="featured-lesson" *ngIf="featuredLesson" (click)="startLesson(featuredLesson)">
+      <div class="lesson-thumbnail">
+        <img [src]="featuredLesson.thumbnail" alt="featuredLesson.title">
+        <div class="play-overlay">
+          <ion-icon name="play-circle" size="large"></ion-icon>
+        </div>
+      </div>
+      <div class="lesson-content">
+        <h4>{{ featuredLesson.title }}</h4>
+        <p>{{ featuredLesson.description }}</p>
+        <div class="lesson-meta">
+          <span class="duration">
+            <ion-icon name="time"></ion-icon>
+            {{ featuredLesson.duration }} min
+          </span>
+          <span class="points">
+            <ion-icon name="star" color="warning"></ion-icon>
+            +{{ featuredLesson.points }} points
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <h3>Recent Achievements</h3>
+    <div class="achievements-list">
+      <div 
+        *ngFor="let achievement of recentAchievements" 
+        class="achievement-item"
+        [class.unlocked]="achievement.unlocked"
+      >
+        <div class="achievement-icon">
+          <img [src]="achievement.icon" alt="achievement.title">
+          <ion-icon *ngIf="!achievement.unlocked" name="lock-closed" class="lock-icon"></ion-icon>
+        </div>
+        <div class="achievement-content">
+          <h5>{{ achievement.title }}</h5>
+          <p>{{ achievement.description }}</p>
+          <div class="achievement-progress" *ngIf="!achievement.unlocked">
+            <div class="progress-bar mini">
+              <div class="progress-fill" [style.width.%]="achievement.progress"></div>
+            </div>
+            <span>{{ achievement.current }}/{{ achievement.required }}</span>
+          </div>
+        </div>
+        <div class="achievement-reward" *ngIf="achievement.unlocked">
+          <span class="reward-points">+{{ achievement.points }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+      <h3>Ready to Make a Difference?</h3>
+      <p>Start reporting waste in your community and earn points while learning!</p>
+      <ion-button expand="block" color="success" [routerLink]="['/report']">
+        <ion-icon name="camera" slot="start"></ion-icon>
+        Report Waste Now
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation (matching your existing structure) -->
+  <div class="bottom-nav">
+    <a routerLink="/home" class="nav-item">
+      <div class="nav-icon">🏠</div>
+      Home
+    </a>
+    <a routerLink="/rewards" class="nav-item">
+      <div class="nav-icon">🏆</div>
+      Rewards
+    </a>
+    <a routerLink="/report" class="nav-item add-btn active">
+      <div class="nav-icon">➕</div>
+    </a>
+    <a routerLink="/recycling-centers" class="nav-item">
+      <div class="nav-icon">♻️</div>
+      Recycling Centers
+    </a>
+    <a routerLink="/profile" class="nav-item">
+      <div class="nav-icon">👤</div>
+      Profile
+    </a>
+  </div>
+</ion-content>

@@ -1,150 +1,196 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Home</ion-title>
+<ion-header class="custom-header">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="header-title">
+      <div class="logo-container">
+        <ion-icon name="leaf" class="logo-icon"></ion-icon>
+        <span class="app-name">Sortify</span>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="notification-btn">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge class="notification-badge">3</ion-badge>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
+  
+  <!-- Location bar -->
+  <div class="location-bar">
+    <ion-icon name="location-outline" class="location-icon"></ion-icon>
+    <span class="location-text">{{ user.address }}</span>
+  </div>
 </ion-header>
 
-<ion-content class="home-content" fullscreen="true">
-  <div class="header fade-in">
-    <div class="user-info">
-      <div>
-        <h2>Hello, {{ user.name }}</h2>
-        <div class="location">
-          <img src="assets/home/location-outline.png" class="icon" />
-          <span>{{ user.address }}</span>
-        </div>
-      </div>
-      <div class="notifications">
-        <img src="assets/home/notifications-outline.png" class="icon" />
-        <span class="badge">3</span>
-      </div>
+<ion-content class="home-content">
+  
+  <!-- Eco Tip Banner -->
+  <div class="eco-tip-banner fade-in">
+    <div class="tip-icon">🌱</div>
+    <div class="tip-content">
+      <h4>{{ todaysTip.title }}</h4>
+      <p>{{ todaysTip.message }}</p>
     </div>
+  </div>
 
-    <ion-card class="points-card slide-up">
+  <!-- Action Cards -->
+  <div class="action-cards slide-up">
+    <ion-card class="report-card primary-action" (click)="goToReportPage()">
       <ion-card-content>
-        <div class="points-container">
-          <img src="assets/home/leaf-outline.png" class="points-icon" />
-          <div>
-            <h4>Your Points</h4>
-            <h1>{{ user.points }}</h1>
-            <p>Redeem for rewards</p>
-          </div>
+        <div class="action-icon report-icon">
+          <ion-icon name="camera-outline"></ion-icon>
+        </div>
+        <div class="action-text">
+          <h4>Report Waste</h4>
+          <p>Help clean your community</p>
         </div>
       </ion-card-content>
     </ion-card>
 
-    <div class="stats slide-up">
-      <ion-card class="stat-box">
-        <img src="assets/home/refresh.png" class="icon" />
-        <h4>{{ totalReports }}</h4>
-        <p>Total Reports</p>
-      </ion-card>
-
-      <ion-card class="stat-box pending">
-        <img src="assets/home/timer-outline.png" class="icon" />
-        <h4>{{ pendingReports }}</h4>
-        <p>Pending</p>
-      </ion-card>
-
-      <ion-card class="stat-box collected">
-        <img src="assets/home/checkmark-done-outline.png" class="icon" />
-        <h4>{{ collectedReports }}</h4>
-        <p>Collected</p>
-      </ion-card>
-    </div>
-
-    <ion-card class="report-banner zoom-in">
-      <ion-card-content class="banner-flex">
-        <div>
-          <h3>Report Waste</h3>
-          <p>Help keep your community clean and earn points</p>
+    <ion-card class="rewards-card secondary-action" (click)="goToRewardsPage()">
+      <ion-card-content>
+        <div class="action-icon rewards-icon">
+          <ion-icon name="gift-outline"></ion-icon>
         </div>
-        <img src="assets/home/leaf-outline.png" class="icon-right" />
+        <div class="action-text">
+          <h4>EcoRewards</h4>
+          <p>{{ getFormattedPoints() }} points earned</p>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>
 
-  <div class="recent-reports fade-in">
+  <!-- Action Tabs -->
+  <div class="action-tabs slide-up">
+    <div class="tab-container">
+      <div 
+        class="tab-item" 
+        *ngFor="let tab of actionTabs" 
+        [class.active]="tab.active"
+        (click)="switchTab(tab.name)"
+      >
+        <ion-icon [name]="tab.icon"></ion-icon>
+        <span>{{ tab.name }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container slide-up">
+    <ion-searchbar 
+      placeholder="Search for an item to sort..."
+      (ionInput)="onSearchInput($event)"
+      class="custom-searchbar"
+    ></ion-searchbar>
+  </div>
+
+  <!-- Popular Items Section -->
+  <div class="popular-section fade-in">
+    <h4 class="section-title">Popular Items</h4>
+    
+    <div class="items-grid">
+      <ion-card 
+        class="item-card" 
+        *ngFor="let item of popularItems"
+        [style.background-color]="item.color"
+        (click)="viewItemDetails(item)"
+      >
+        <ion-card-content>
+          <div class="item-header">
+            <ion-icon [name]="item.icon" class="item-icon"></ion-icon>
+            <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+          </div>
+          <div class="item-info">
+            <h5 class="item-name">{{ item.name }}</h5>
+            <p class="item-category">{{ item.category }}</p>
+            <div class="item-points">+{{ item.points }} pts</div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Weekly Progress -->
+  <ion-card class="progress-card slide-up">
+    <ion-card-content>
+      <div class="progress-header">
+        <h4>Weekly Progress</h4>
+        <span class="progress-count">{{ user.weeklyProgress }}/{{ user.weeklyGoal }}</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+        </div>
+      </div>
+      <p class="progress-text">{{ user.weeklyGoal - user.weeklyProgress }} more reports to reach your weekly goal</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Recent Activity -->
+  <div class="recent-activity fade-in" *ngIf="recentReports.length > 0">
     <div class="section-header">
-      <h4>Recent Reports</h4>
-      <a href="#">See All →</a>
+      <h4>Recent Activity</h4>
+      <ion-button fill="clear" size="small">
+        View All
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
     </div>
 
-    <ion-card class="report-card">
-      <ion-card-content>
-        <div class="tags">
-          <span class="tag green">Plastic</span>
-          <span class="tag status-collected">Collected</span>
+    <div class="activity-list">
+      <ion-item class="activity-item" *ngFor="let report of recentReports">
+        <div class="activity-icon" [style.background-color]="report.color">
+          <ion-icon name="checkmark-outline"></ion-icon>
         </div>
-        <div class="report-entry">
-          <img src="assets/home/plastic.png" class="report-image" />
-          <div class="report-details">
-            <div class="report-title">Plastic bottles and containers</div>
-            <div class="report-meta">
-              <img src="assets/home/location-outline.png" class="icon" />
-              <span>V Section, Umlazi, Durban</span>
-            </div>
-            <div class="report-date">15 Nov 2023</div>
-            <div class="points">Points: <span class="bold">50</span> <span class="bonus">+10</span></div>
+        <ion-label>
+          <h3>{{ report.title }}</h3>
+          <p>{{ report.location }} • {{ report.date }}</p>
+          <div class="activity-meta">
+            <span class="points">+{{ report.points }} points</span>
+            <ion-badge [color]="report.status === 'Collected' ? 'success' : 'warning'">
+              {{ report.status }}
+            </ion-badge>
           </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="report-card">
-      <ion-card-content>
-        <div class="tags">
-          <span class="tag blue">Paper</span>
-          <span class="tag status-assigned">Assigned</span>
-        </div>
-        <div class="report-entry">
-          <img src="assets/home/paper.png" class="report-image" />
-          <div class="report-details">
-            <div class="report-title">Cardboard boxes and newspapers</div>
-            <div class="report-meta">
-              <img src="assets/home/location-outline.png" class="icon" />
-              <span>W Section, Umlazi, Durban</span>
-            </div>
-            <div class="report-date">01 Dec 2023</div>
-            <div class="points">Points: <span class="bold">30</span></div>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
+        </ion-label>
+      </ion-item>
+    </div>
   </div>
 
-  <div class="quick-access fade-in" style="padding-bottom: 100px;">
-    <ion-card class="access-button" (click)="goToCentersPage()" button>
-  <ion-card-content>
-    <img src="assets/home/location-outline.png" class="icon" />
-    <h5>Recycling Centers</h5>
-  </ion-card-content>
-</ion-card>
+  <!-- Complete Sorting Guide CTA -->
+  <ion-card class="cta-card slide-up">
+    <ion-card-content>
+      <div class="cta-content">
+        <h4>📚 Complete Sorting Guide</h4>
+        <p>Learn how to properly sort all types of waste</p>
+        <ion-button fill="solid" color="success" (click)="goToLearnPage()">
+          View Guide
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-card class="access-button">
-      <ion-card-content>
-        <img src="assets/home/information-circle-outline.png" class="icon" />
-        <h5>Support & Feedback</h5>
-      </ion-card-content>
-    </ion-card>
-  </div>
+  <!-- Bottom padding -->
+  <div class="bottom-spacer"></div>
 
-  <!-- ✅ Bottom Navigation (Unchanged) -->
-  <div class="bottom-nav">
-    <a [routerLink]="['/home']" routerLinkActive="active">
-      <img src="assets/icon/home.png" alt="Home" />
-    </a>
-    <a [routerLink]="['/rewards']" routerLinkActive="active">
-      <img src="assets/icon/medal.png" alt="Rewards" />
-    </a>
-    <a [routerLink]="['/report']" class="add-btn" routerLinkActive="active">
-      <img src="assets/icon/add.png" alt="Report" />
-    </a>
-    <a [routerLink]="['/my-reports']" routerLinkActive="active">
-      <img src="assets/icon/report.png" alt="My Reports" />
-    </a>
-    <a [routerLink]="['/profile']" routerLinkActive="active">
-      <img src="assets/icon/user.png" alt="Profile" />
-    </a>
-  </div>
 </ion-content>
+
+<!-- Custom Bottom Navigation (replaces ion-tab-bar) -->
+<div class="bottom-nav">
+  <a routerLink="/home" class="nav-item" routerLinkActive="active">
+    <div class="nav-icon">🏠</div>
+    Home
+  </a>
+  <a routerLink="/rewards" class="nav-item" routerLinkActive="active">
+    <div class="nav-icon">🏆</div>
+    Rewards
+  </a>
+  <a routerLink="/report" class="nav-item add-btn" routerLinkActive="active">
+    <div class="nav-icon">➕</div>
+  </a>
+  <a routerLink="/recycling-centers" class="nav-item">
+      <div class="nav-icon">♻️</div>
+      Recycling Centers
+    </a>
+  <a routerLink="/profile" class="nav-item" routerLinkActive="active">
+    <div class="nav-icon">👤</div>
+    Profile
+  </a>
+</div>

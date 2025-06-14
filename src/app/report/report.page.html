@@ -1,4 +1,7 @@
-<ion-header>
+<!-- report.page.html -->
+<div class="floating-particles" #particlesContainer></div>
+
+<ion-header class="custom-header">
   <ion-toolbar>
     <ion-title>Report</ion-title>
   </ion-toolbar>
@@ -10,77 +13,101 @@
     <h2>Report Waste</h2>
     <p class="subtext">Help keep your community clean and earn points by reporting waste</p>
 
-    <h3>Waste Type</h3>
-    <p class="subtext">Select the type of waste you're reporting</p>
-
-    <div class="waste-types">
-      <ion-button
-        *ngFor="let type of wasteTypes"
-        [color]="selectedType === type.type ? 'primary' : 'light'"
-        (click)="selectWasteType(type.type)"
-        shape="round"
-        size="small"
-      >
-        {{ type.label }}
-      </ion-button>
+    <div class="success-message" [class.show]="showSuccessMessage">
+      ✨ Report submitted successfully! You earned 15 points! 🎉
     </div>
 
-    <h3>Description</h3>
-    <p class="subtext">Provide details about the waste</p>
+    <div class="section">
+      <div class="section-title">
+        🗂️ Waste Type
+      </div>
+      <div class="section-subtitle">Select the type of waste you're reporting</div>
+      <div class="waste-types-grid">
+        <div 
+          class="waste-type-btn" 
+          *ngFor="let type of wasteTypes"
+          [class.selected]="isWasteTypeSelected(type.type)"
+          (click)="selectWasteType(type.type)"
+        >
+          <span class="waste-type-icon">{{ type.icon }}</span>
+          {{ type.label }}
+        </div>
+      </div>
+    </div>
 
-    <ion-textarea
-      placeholder="E.g., Several plastic bottles and bags near the park entrance"
-      [(ngModel)]="description"
-      rows="4"
-      fill="solid"
-    ></ion-textarea>
+    <div class="section">
+      <div class="section-title">
+        📝 Description
+      </div>
+      <div class="section-subtitle">Provide details about the waste location and amount</div>
+      <ion-textarea
+        [(ngModel)]="description"
+        (ionInput)="onDescriptionChange()"
+        placeholder="E.g., Several plastic bottles and bags scattered near the park entrance, approximately 5-10 items"
+        [maxlength]="maxCharacters"
+        rows="4"
+        class="description-textarea"
+      ></ion-textarea>
+      <div class="character-count" [style.color]="getCharacterCountColor()">
+        {{ characterCount }}/{{ maxCharacters }}
+      </div>
+    </div>
 
-    <h3>Photo</h3>
-    <p class="subtext">Upload or take a photo of the waste</p>
-
-    <div class="photo-buttons">
-      <ion-button expand="block" fill="outline" (click)="uploadPhoto()">Upload Photo</ion-button>
-      <ion-button expand="block" fill="outline" (click)="takePhoto()">Take Photo</ion-button>
+    <div class="section">
+      <div class="section-title">
+        📸 Photo Evidence
+      </div>
+      <div class="section-subtitle">Visual proof helps verify and process your report faster</div>
+      <div class="photo-section">
+        <ion-button 
+          class="photo-btn" 
+          fill="clear" 
+          (click)="uploadPhoto()"
+        >
+          📤 Upload Photo
+        </ion-button>
+        <ion-button 
+          class="photo-btn" 
+          fill="clear" 
+          (click)="takePhoto()"
+        >
+          📷 Take Photo
+        </ion-button>
+      </div>
     </div>
 
     <ion-button
       expand="block"
-      color="success"
-      [disabled]="!selectedType || !location || isLoading"
+      class="submit-btn"
+      [disabled]="!selectedWasteType || isLoading"
       (click)="submitReport()"
     >
       <ion-spinner *ngIf="isLoading" name="dots" slot="start"></ion-spinner>
-      Submit Report
+      <span *ngIf="!isLoading">🚀 Submit Report</span>
+      <span *ngIf="isLoading">Submitting...</span>
     </ion-button>
   </div>
 
-  <!-- Bottom Navigation (Icons Only) -->
+  <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <div class="nav-item">
-      <a [routerLink]="['/home']" title="Home">
-        <img src="assets/icon/home.png" alt="Home" />
-      </a>
-    </div>
-    <div class="nav-item">
-      <a [routerLink]="['/rewards']" title="Rewards">
-        <img src="assets/icon/medal.png" alt="Rewards" />
-      </a>
-    </div>
-    <div class="nav-item add-btn">
-      <a [routerLink]="['/report']" title="Add Report">
-        <img src="assets/icon/add.png" alt="Add" />
-      </a>
-    </div>
-    <div class="nav-item">
-      <a [routerLink]="['/reports']" title="Reports">
-        <img src="assets/icon/report.png" alt="Reports" />
-      </a>
-    </div>
-    <div class="nav-item">
-      <a [routerLink]="['/profile']" title="Profile">
-        <img src="assets/icon/user.png" alt="Profile" />
-      </a>
-    </div>
+    <a routerLink="/home" class="nav-item">
+      <div class="nav-icon">🏠</div>
+      Home
+    </a>
+    <a routerLink="/rewards" class="nav-item">
+      <div class="nav-icon">🏆</div>
+      Rewards
+    </a>
+    <a routerLink="/report" class="nav-item add-btn active">
+      <div class="nav-icon">➕</div>
+    </a>
+    <a routerLink="/recycling-centers" class="nav-item">
+      <div class="nav-icon">♻️</div>
+      Recycling Centers
+    </a>
+    <a routerLink="/profile" class="nav-item">
+      <div class="nav-icon">👤</div>
+      Profile
+    </a>
   </div>
-
 </ion-content>
