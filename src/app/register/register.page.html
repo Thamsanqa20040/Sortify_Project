@@ -1,18 +1,132 @@
-<ion-header> 
-  <ion-toolbar> 
-  <ion-title>Register</ion-title> 
-  </ion-toolbar> 
-  </ion-header> 
-  <ion-content> 
-  <ion-card> 
-  <ion-card-header> 
-  <ion-card-title>Create an Account</ion-card-title> 
-  </ion-card-header> 
-  <ion-card-content> 
-  <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input> 
-  <ion-input [(ngModel)]="password" type="password" 
-  placeholder="Password"></ion-input> 
-  <ion-button expand="full" (click)="register()">Register</ion-button> 
-  </ion-card-content> 
-  </ion-card> 
-  </ion-content> 
+<!-- register.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <div class="header-icon">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </div>
+      <ion-card-title>Create an Account</ion-card-title>
+      <ion-card-subtitle>Join Sortify and start recycling</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        
+        <!-- Name Input -->
+        <ion-item>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-input 
+            formControlName="name"
+            type="text" 
+            placeholder="Your name"
+            [class.ion-invalid]="hasFieldError('name')"
+            [class.ion-touched]="registerForm.get('name')?.touched">
+          </ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="hasFieldError('name')">
+          {{ getFieldError('name') }}
+        </div>
+
+        <!-- Email Input -->
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-input 
+            formControlName="email"
+            type="email" 
+            placeholder="you@example.com"
+            [class.ion-invalid]="hasFieldError('email')"
+            [class.ion-touched]="registerForm.get('email')?.touched">
+          </ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="hasFieldError('email')">
+          {{ getFieldError('email') }}
+        </div>
+
+        <!-- Password Input -->
+        <ion-item>
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-input 
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'" 
+            placeholder="Password"
+            [class.ion-invalid]="hasFieldError('password')"
+            [class.ion-touched]="registerForm.get('password')?.touched">
+          </ion-input>
+          <ion-button 
+            fill="clear" 
+            slot="end" 
+            (click)="togglePasswordVisibility()"
+            type="button">
+            <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <div class="error-message" *ngIf="hasFieldError('password')">
+          {{ getFieldError('password') }}
+        </div>
+
+        <!-- Confirm Password Input -->
+        <ion-item>
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-input 
+            formControlName="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'" 
+            placeholder="Confirm Password"
+            [class.ion-invalid]="hasFieldError('confirmPassword')"
+            [class.ion-touched]="registerForm.get('confirmPassword')?.touched">
+          </ion-input>
+          <ion-button 
+            fill="clear" 
+            slot="end" 
+            (click)="toggleConfirmPasswordVisibility()"
+            type="button">
+            <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <div class="error-message" *ngIf="hasFieldError('confirmPassword')">
+          {{ getFieldError('confirmPassword') }}
+        </div>
+
+        <!-- Terms and Conditions -->
+        <ion-item lines="none" class="terms-item">
+          <ion-checkbox 
+            formControlName="acceptTerms" 
+            slot="start"
+            [class.ion-invalid]="hasFieldError('acceptTerms')">
+          </ion-checkbox>
+          <ion-label class="ion-text-wrap">
+            I accept the 
+            <span class="link-text" (click)="navigateToTerms()">Terms of Service</span> 
+            and 
+            <span class="link-text" (click)="navigateToPrivacy()">Privacy Policy</span>
+          </ion-label>
+        </ion-item>
+        <div class="error-message" *ngIf="hasFieldError('acceptTerms')">
+          {{ getFieldError('acceptTerms') }}
+        </div>
+
+        <!-- Register Button -->
+        <ion-button 
+          expand="full" 
+          type="submit"
+          class="register-button"
+          (click)="register()">
+          Create Account
+        </ion-button>
+      </form>
+
+      <!-- Login Link -->
+      <div class="login-link">
+        <p>
+          Already have an account? 
+          <span class="link-text" (click)="navigateToLogin()">Log in</span>
+        </p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
